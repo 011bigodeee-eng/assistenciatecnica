@@ -30,7 +30,7 @@ Os testes de navegador usam `/usr/bin/chromium`. Para outro executável, defina 
 
 ## Funcionalidades
 
-- Abertura curta, pulável, uma vez por sessão; redução de movimento respeitada.
+- Abertura curta, com encerramento automático, uma vez por sessão; redução de movimento respeitada.
 - Hero com fotografias publicitárias ilustrativas geradas por IA e composições independentes para desktop e mobile, carregamento prioritário e enquadramento integral do aparelho.
 - Seleção visual de nove problemas: imagens individuais geradas por IA, causas possíveis, opção ativa e mensagem personalizada no WhatsApp. Sem diagnóstico automático.
 - Exploração educativa de oito componentes internos, com imagens próprias, crossfade, zoom discreto e seletores horizontais no celular. Sem WebGL ou modelos 3D.

@@ -23,7 +23,7 @@ Os testes de navegador verificam:
 - Fluxo de fotografia: campos, tipo inválido, prévia, entrada de captura, substituição, remoção, observações, revisão, download local, texto com modelo e orientação de anexo manual.
 - Agenda: domingo rejeitado, pedido futuro preparado e aviso de que nenhuma reserva foi criada.
 - Compartilhamento nativo simulado com arquivos: cancelamento preserva a fotografia.
-- Abertura pulável e uma vez por sessão; redução de movimento; cenário monitorado sem exceções de aplicação.
+- Abertura com encerramento automático e uma vez por sessão; redução de movimento; cenário monitorado sem exceções de aplicação.
 - Comparação ilustrativa antes/depois operável por teclado.
 - Axe: nenhuma violação automática WCAG 2 A/AA e WCAG 2.1 AA no cenário desktop auditado.
 

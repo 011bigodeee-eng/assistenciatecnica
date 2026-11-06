@@ -335,18 +335,20 @@ test("mobile touch selectors remain contained and show every component", async (
   }
   await context.close();
 });
-test("intro plays once and is skippable", async ({ page }) => {
-  await page.waitForFunction(() => sessionStorage.getItem("ril-intro") === "1");
-  await page.evaluate(() => sessionStorage.removeItem("ril-intro"));
-  await page.reload({ waitUntil: "domcontentloaded" });
-  await page.getByRole("button", { name: "Pular introdução" }).click();
+test("intro closes automatically once per session without a skip button", async ({
+  page,
+}) => {
+  await expect(page.locator(".intro")).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Pular introdução" }),
   ).toHaveCount(0);
-  await page.reload({ waitUntil: "domcontentloaded" });
+  await expect(page.locator(".intro")).toHaveCount(0, { timeout: 5000 });
+  await expect(page.locator(".trust-grid > div")).toHaveCount(3);
   await expect(
-    page.getByRole("button", { name: "Pular introdução" }),
+    page.getByText("aparelhos consertados", { exact: false }),
   ).toHaveCount(0);
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await expect(page.locator(".intro")).toHaveCount(0);
 });
 test("native sharing is offered only with file support and cancellation preserves photo", async ({
   page,

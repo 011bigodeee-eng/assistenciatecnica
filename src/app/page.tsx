@@ -107,12 +107,6 @@ export default function Home() {
         <section className="trust-bar" aria-label="Informações da empresa">
           <div className="container trust-grid">
             <div>
-              <strong>
-                1.000<span>+</span>
-              </strong>
-              <small>aparelhos consertados¹</small>
-            </div>
-            <div>
               <ShieldCheck />
               <span>
                 <strong>3 meses</strong>
@@ -197,10 +191,8 @@ export default function Home() {
               })}
             </div>
             <p className="fine source-note">
-              ¹ Quantidade de aparelhos informada no briefing, sujeita à
-              confirmação. Categorias para consulta. A disponibilidade e as
-              condições de cada serviço dependem de confirmação da equipe para
-              seu aparelho.
+              Categorias para consulta. A disponibilidade e as condições de cada
+              serviço dependem de confirmação da equipe para seu aparelho.
             </p>
           </div>
         </section>

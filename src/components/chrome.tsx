@@ -177,7 +177,6 @@ export function Intro() {
       <div className="intro-line" />
       <Logo />
       <span>PRECISÃO. CUIDADO. CONEXÃO.</span>
-      <button onClick={() => setShow(false)}>Pular introdução ↗</button>
     </div>
   ) : null;
 }

@@ -305,7 +305,7 @@ svg {
 }
 .trust-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   padding: 28px 0;
 }
 .trust-grid > div {
@@ -330,13 +330,6 @@ svg {
   font-size: 16px;
   font-weight: 500;
   line-height: 1.5;
-}
-.trust-grid > div:first-child > strong {
-  font-size: 33px;
-  letter-spacing: -2px;
-}
-.trust-grid strong > span {
-  color: #3b82f6;
 }
 .trust-grid small {
   display: block;
@@ -982,15 +975,6 @@ footer {
   color: #708ab3;
   margin-top: 32px;
 }
-.intro > button {
-  position: absolute;
-  bottom: 50px;
-  right: 50px;
-  background: transparent;
-  border: 0;
-  color: #99adc9;
-  font-size: 11px;
-}
 .intro-line {
   position: absolute;
   left: 0;
@@ -1170,9 +1154,6 @@ footer {
   .trust-grid small {
     font-size: 9px;
   }
-  .trust-grid > div:first-child > strong {
-    font-size: 30px;
-  }
   .service-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
@@ -1311,9 +1292,6 @@ footer {
   }
   .trust-grid > div:first-child {
     gap: 10px;
-  }
-  .trust-grid > div:first-child > strong {
-    font-size: 25px;
   }
   .trust-grid strong {
     font-size: 12px;
@@ -1548,10 +1526,6 @@ footer {
     height: 43px;
     right: 16px;
     bottom: max(16px, env(safe-area-inset-bottom));
-  }
-  .intro > button {
-    bottom: 30px;
-    right: 25px;
   }
   .intro > .logo {
     font-size: 65px;
@@ -2502,5 +2476,11 @@ html.intro-pending body:before {
 @media (prefers-reduced-motion: reduce) {
   .hero-art {
     animation: none;
+  }
+}
+@media (max-width: 800px) {
+  .trust-grid > div:last-child {
+    grid-column: 1 / -1;
+    padding-left: 0;
   }
 }
