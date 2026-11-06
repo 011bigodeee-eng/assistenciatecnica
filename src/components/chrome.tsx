@@ -5,8 +5,8 @@ import { whatsapp } from "@/lib/domain.mjs";
 const links = [
   ["Início", "#inicio"],
   ["Serviços", "#servicos"],
-  ["Diagnóstico 3D", "#diagnostico"],
-  ["Acompanhar reparo", "#reparo"],
+  ["Seu aparelho", "#diagnostico"],
+  ["Atendimento", "#atendimento"],
   ["Agendamento", "#agendamento"],
   ["Contato", "#contato"],
 ];

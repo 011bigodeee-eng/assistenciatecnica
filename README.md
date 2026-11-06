@@ -1,6 +1,6 @@
 # RIL CELL — prévia comercial
 
-Experiência Dark Tech para uma assistência técnica independente em Fortaleza. Next.js App Router, React, TypeScript, Three.js, React Three Fiber e Drei. Não requer banco de dados nem credenciais para executar a demonstração.
+Experiência Dark Tech para uma assistência técnica independente em Fortaleza. Next.js App Router, React, TypeScript, Motion e imagens responsivas em WebP. Não requer banco de dados nem credenciais para executar a demonstração.
 
 ## Executar
 
@@ -32,9 +32,10 @@ Os testes de navegador usam `/usr/bin/chromium`. Para outro executável, defina 
 
 - Abertura curta, pulável, uma vez por sessão; redução de movimento respeitada.
 - Hero com imagem publicitária ilustrativa gerada por IA, serviços e contato contextual via WhatsApp.
-- Diagnóstico 3D procedural: componentes clicáveis, rotação limitada, zoom por botão, reset e formulário para preparar avaliação. Lista acessível equivalente e fallback quando WebGL falha.
-- Laboratório educativo com montagem e vista explodida interpolada. Apenas uma cena WebGL ativa por vez, conforme visibilidade.
-- Rastreamento demonstrativo: `DEMO-RC-2048`. Outros códigos não produzem resultados inventados. Adaptador `getRepairStatus` em `src/lib/domain.mjs`.
+- Seleção visual de nove problemas: imagens individuais geradas por IA, causas possíveis, opção ativa e mensagem personalizada no WhatsApp. Sem diagnóstico automático.
+- Exploração educativa de oito componentes internos, com imagens próprias, crossfade, zoom discreto e seletores horizontais no celular. Sem WebGL ou modelos 3D.
+- Fluxo sugerido de atendimento em quatro etapas, com progresso conforme o scroll. Conteúdo editável em `src/data/experience.ts`. O rastreamento anterior e seus dados foram removidos.
+- Seção de contato com bancada cinematográfica, acesso à solicitação por foto e diferenciais reais da experiência digital.
 - Solicitação em etapas com imagem local (JPEG, PNG, WebP, máximo de 8 MB), prévia, remoção, substituição, captura compatível e revisão. Nada é enviado a servidor. Web Share API com arquivos quando suportada e fluxo universal por texto com anexo manual.
 - Solicitação de horário: datas em Fortaleza, bloqueio de domingos, datas/horas passadas e horários fora da lista. Revisão e mensagem no WhatsApp, sem reserva automática.
 - Comparação ilustrativa antes/depois por range acessível a teclado, mouse e toque.
@@ -44,8 +45,9 @@ Os testes de navegador usam `/usr/bin/chromium`. Para outro executável, defina 
 
 - `src/app`: página, layout, estilos e metadados.
 - `src/components`: navegação, formulários e experiências independentes.
-- `src/data/company.ts`: informações comerciais, serviços, componentes e `DEMO_MODE`.
-- `src/lib/domain.mjs`: regras testáveis e adaptador demonstrativo.
+- `src/data/company.ts`: informações comerciais, serviços, categorias de consulta e `DEMO_MODE`.
+- `src/data/experience.ts`: problemas, imagens, componentes, diferenciais e etapas sugeridas de atendimento.
+- `src/lib/domain.mjs`: validações de data, horário, fotografia e mensagens.
 - `public/images`: assets locais.
 - `tests`: regras de domínio e fluxos de navegador.
 
@@ -59,7 +61,7 @@ Os testes de navegador usam `/usr/bin/chromium`. Para outro executável, defina 
 
 ## Demonstração e integrações futuras
 
-`DEMO_MODE = true` documenta o estado da prévia; mudar essa constante não cria integrações reais. O rastreamento utiliza exclusivamente dados fictícios e a agenda não consulta disponibilidade. O portfólio é uma ilustração, e o 3D não representa um modelo exato de fabricante. Não há depoimentos, endereços, preços, avaliações ou certificações inventados.
+`DEMO_MODE = true` documenta o estado da prévia; mudar essa constante não cria integrações reais. A agenda não consulta disponibilidade. O portfólio e as imagens de componentes são ilustrativos, sem correspondência comprovada com um modelo específico. As categorias de serviços são consultas sujeitas à confirmação da equipe. Não há depoimentos, endereços, preços, avaliações ou certificações inventados.
 
 Para produção: backend de ordens de serviço e agenda, autenticação da equipe, permissões, identificadores não previsíveis, proteção de dados, limitação de consultas, histórico/auditoria e disponibilidade real. Adicionar cancelamento, reagendamento e notificações somente com integrações autorizadas. Avaliações verificadas deverão conter nome, texto, nota, data e link de origem; não há avaliações carregadas na prévia.
 

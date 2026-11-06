@@ -1,73 +1,41 @@
-# Validação da prévia RIL CELL
+# Validação da atualização premium RIL CELL
 
-## Ambiente e execução
+## Ambiente
 
-- Node.js 24.22.1; Next.js 16.4.5; Chromium do ambiente.
-- Instalação reproduzível pelo `package-lock.json`: `npm ci --prefer-offline` (cache explicitamente direcionado a `/tmp/ril-npm-cache` durante a verificação).
-- `npm run build`: passou, incluindo TypeScript e geração estática de página, robots, sitemap e ícone.
-- Servidor de produção iniciado por `npm start` e utilizado nos testes reais de navegador.
-- `npm run dev -- --port 3001`: inicialização e resposta funcional verificadas; processo de desenvolvimento encerrado após o teste.
+Node.js 24.22.1, Next.js 16.4.5, Chromium em `/usr/bin/chromium`. Instalação via npm e lockfile atualizado. Sem banco ou credenciais de aplicação para executar a prévia. Sem publicação ou deploy automático.
 
-## Testes executados
+## Verificações executadas
 
-`npm test`: **6 testes passaram**.
+- `npm test`: 5 testes passaram. Validação de mensagens, datas em Fortaleza, domingos, datas impossíveis, horários e arquivos de imagem. O teste exclusivo do rastreamento foi removido junto com a funcionalidade.
+- `npm run build`: build de produção e geração estática aprovados.
+- `npm run typecheck`: aprovado.
+- `npm start` seguido de `npm run test:e2e`: 12 testes passaram.
 
-- Mensagens de WhatsApp preservam acentos e caracteres especiais.
-- Datas calculadas em America/Fortaleza, incluindo virada de dia UTC.
-- Datas passadas, domingos e datas impossíveis rejeitadas.
-- Horários fora da lista e horários passados rejeitados.
-- Tipos/tamanhos de arquivo aceitos e rejeitados corretamente.
-- Adaptador retorna somente o código demonstrativo, sem inventar resultados para outros códigos.
+Os testes de navegador verificam:
 
-`npx playwright test`: **12 testes passaram** na versão final.
-
-- Página de produção, destinos dos links internos, imagens HTML e estrutura dos links WhatsApp.
-- Código demonstrativo e código não encontrado.
-- Formulário de fotografia, campos, arquivo inválido, prévia e revisão com anexo manual.
-- Domingo rejeitado e solicitação de horário futuro sem confirmação automática.
-- Canvas WebGL real presente, seleção por lista, zoom, reset e controles de montagem do laboratório.
-- Sem overflow horizontal em 320, 360, 375, 390, 414, 768, 1024, 1440 e 1920 pixels; menu mobile abre, fecha por Escape e fecha após navegação.
-- Reduced motion pula a introdução; nenhuma exceção de aplicação no cenário monitorado.
-- WebGL indisponível: lista e conteúdo educativo continuam utilizáveis.
-- Introdução pulável e uma vez por sessão.
-- Web Share API simulada com suporte a arquivos: cancelamento preserva a fotografia.
-- Comparador responde a setas e Home no teclado.
+- Links internos com destino existente, imagens carregadas e número oficial em todas as URLs WhatsApp verificadas.
+- Ausência de rastreamento, canvas 3D e painel antigo; presença das quatro etapas e acesso à fotografia pelo novo CTA.
+- As nove opções de problema e os oito componentes: imagem individual carregada, título, descrição e opção ativa; texto exato personalizado de WhatsApp para cada problema.
+- Navegação dos seletores por Enter, Tab e Espaço e interação por toque em viewport de 320 px.
+- Ausência de overflow horizontal em 320, 375, 390, 430, 768, 1024, 1440 e 1920 px; menu mobile e Escape.
+- Fluxo de fotografia: campos, tipo inválido, prévia, entrada de captura, substituição, remoção, observações, revisão, download local, texto com modelo e orientação de anexo manual.
+- Agenda: domingo rejeitado, pedido futuro preparado e aviso de que nenhuma reserva foi criada.
+- Compartilhamento nativo simulado com arquivos: cancelamento preserva a fotografia.
+- Abertura pulável e uma vez por sessão; redução de movimento; cenário monitorado sem exceções de aplicação.
+- Comparação ilustrativa antes/depois operável por teclado.
 - Axe: nenhuma violação automática WCAG 2 A/AA e WCAG 2.1 AA no cenário desktop auditado.
 
-Os testes de compartilhamento usam uma implementação simulada da API no navegador. Não comprovam envio real para WhatsApp em um aparelho físico. Os links foram validados sem enviar mensagens à empresa. A presença e os controles do canvas foram verificados; gestos físicos de toque e leitores de tela exigem avaliação em dispositivos reais.
+## Revisão visual e assets
 
-## Inspeção visual
+Capturas de diagnóstico visual, componentes, atendimento e contato em 1440, 390 e 320 px foram geradas em `/tmp/ril-*.png`. Seções principais inspecionadas visualmente. Os seletores horizontais ficam contidos na seção; imagens e textos têm espaço reservado. Após o último ajuste de CSS, uma verificação funcional adicional percorreu as 17 opções nas oito larguras solicitadas: variação de altura de 0 px em cada seletor e nenhum overflow horizontal. O botão flutuante é ocultado em celulares para não cobrir formulários; o WhatsApp continua disponível no cabeçalho e nas ações.
 
-Capturas de viewport desktop e mobile inspecionadas: hero, serviços com imagens ilustrativas, painel de diagnóstico e formulário mobile. Ajustados contraste de textos e altura da região 3D. Capturas são artefatos temporários em `/tmp/ril-*.png`.
+Foram adicionadas 18 cenas geradas por IA, exportadas em 37 arquivos WebP responsivos (aproximadamente 1,3 MB no total em disco). O navegador seleciona variantes; imagens abaixo da dobra usam carregamento tardio. Ver `ASSETS.md`. Three.js, Fiber, Drei e tipos exclusivos foram removidos; Motion foi adicionado. Não há dependência de WebGL.
 
-## Desempenho
+## Limites e configuração real
 
-Lighthouse local, perfil mobile padrão com throttling simulado, executado sem a suíte de navegador concorrente:
-
-| Medida                 | Resultado |
-| ---------------------- | --------- |
-| Performance            | 83 / 100  |
-| Accessibility          | 100 / 100 |
-| Best Practices         | 100 / 100 |
-| SEO                    | 100 / 100 |
-| LCP                    | 3,8 s     |
-| CLS                    | 0,006     |
-| Total Blocking Time    | 240 ms    |
-| First Contentful Paint | 1,0 s     |
-
-As metas de Performance 90+, acessibilidade automática e CLS foram atingidas nesta medição local. A meta de LCP abaixo de 2,5 s **não foi atingida**: o resultado foi 3,0 s. Fontes variáveis locais, imagens responsivas em três resoluções e abertura com duração contada desde o carregamento foram aplicadas. Novas otimizações devem ser orientadas por medição no deploy e em dispositivos reais, especialmente para a imagem principal e a abertura cinematográfica.
-
-Comando: `CHROME_PATH=/usr/bin/chromium npx lighthouse http://127.0.0.1:3000 --output=json --output-path=/tmp/ril-lighthouse-final.json --chrome-flags='--headless --no-sandbox --enable-unsafe-swiftshader' --only-categories=performance,accessibility,best-practices,seo --quiet`.
-
-Web Vitals de campo, INP real, redes/dispositivos reais e métricas do deploy Vercel não foram medidos. Resultados locais de laboratório não garantem metas em produção. O relatório bruto permanece em `/tmp/ril-lighthouse-final.json`; resumo versionado em `reports/lighthouse-summary.json`.
-
-## Pendências para produção
-
-- Confirmar dados comerciais com o proprietário. `rilcell.com` não pôde ser consultado: o proxy retornou 403.
-- Fornecer logotipo oficial em boa qualidade, endereço confirmado se desejado e fotos reais autorizadas.
-- Integrar ordens de serviço e agenda com segurança e autorização. A prévia não cria reservas nem apresenta reparos reais.
-- Substituir portfólio ilustrativo por fotos reais e adicionar avaliações somente com origem verificável.
-- Confirmar canonical e domínio antes de publicar na Vercel.
-- Validar compartilhamento em navegadores móveis reais, gestos de toque, leitores de tela e desempenho em aparelhos modestos.
-
-A configuração reutilizável do ambiente foi salva como rascunho: `install_script` e `start_skill`. Ela não foi publicada e nenhum deploy Vercel foi executado.
+- WhatsApp abre uma conversa com texto preparado. Nenhuma mensagem foi enviada nos testes. Fotos não são anexadas automaticamente pela URL; o visitante anexa manualmente ou usa o compartilhamento nativo quando suportado.
+- A agenda continua sendo uma solicitação, sem integração de disponibilidade ou reserva.
+- Categorias de serviços e etapas de atendimento precisam de validação comercial pela empresa; estão centralizadas em arquivos de dados para edição. Dados comerciais preexistentes e canais oficiais foram preservados.
+- Imagens são ilustrativas e não documentam peças de um modelo específico ou instalações reais. Portfólio permanece ilustrativo.
+- A auditoria automática não substitui avaliação com leitores de tela e aparelhos físicos. O teste de toque usa emulação de navegador.
+- Lighthouse e Web Vitals não foram medidos nesta atualização. Relatórios antigos não estabelecem desempenho da versão atual. Domínio, dados empresariais e publicação devem ser confirmados antes de produção.

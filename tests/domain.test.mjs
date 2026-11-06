@@ -6,7 +6,6 @@ import {
   validateDate,
   validateAppointment,
   validatePhoto,
-  getRepairStatus,
 } from "../src/lib/domain.mjs";
 const now = new Date("2026-11-06T15:30:00Z");
 test("WhatsApp preserva acentos, linhas e caracteres especiais", () => {
@@ -39,11 +38,4 @@ test("foto aceita apenas imagens suportadas com tamanho válido", () => {
     "",
   );
   assert.notEqual(validatePhoto({ type: "image/jpeg", size: 0 }), "");
-});
-test("adaptador retorna apenas o reparo fictício cadastrado", async () => {
-  const result = await getRepairStatus(" demo-rc-2048 ");
-  assert.equal(result.device, "Samsung Galaxy A54");
-  assert.equal(result.step, 2);
-  assert.equal(result.customer, "Cliente demonstrativo");
-  assert.equal(await getRepairStatus("RC-1234"), null);
 });

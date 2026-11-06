@@ -1,6 +1,5 @@
 import { company } from "../data/company-info.mjs";
 import { appointmentTimes } from "../data/demo-availability.mjs";
-import { demoRepair } from "../data/demo-repairs.mjs";
 export const whatsapp = (
   message = "Olá, equipe Ril Cell! Gostaria de solicitar um orçamento.",
 ) => `https://wa.me/${company.phone}?text=${encodeURIComponent(message)}`;
@@ -36,9 +35,4 @@ export function validatePhoto(file) {
   if (file.size > 8 * 1024 * 1024) return "A imagem deve ter no máximo 8 MB.";
   if (file.size === 0) return "O arquivo está vazio.";
   return "";
-}
-export async function getRepairStatus(code) {
-  await new Promise((resolve) => setTimeout(resolve, 450));
-  if (code.trim().toUpperCase() !== "DEMO-RC-2048") return null;
-  return { ...demoRepair };
 }

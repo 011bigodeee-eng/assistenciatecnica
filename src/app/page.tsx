@@ -1,6 +1,5 @@
 import {
   ArrowUpRight,
-  ArrowRight,
   ShieldCheck,
   MapPin,
   Clock3,
@@ -8,8 +7,8 @@ import {
   BatteryCharging,
   Cable,
   Cpu,
-  Droplets,
-  Check,
+  Camera,
+  Volume2,
   MessageCircle,
   Instagram,
   MoveDown,
@@ -17,14 +16,18 @@ import {
 } from "lucide-react";
 import { Header, Intro, Logo, Reveal } from "@/components/chrome";
 import Diagnostics from "@/components/diagnostics";
-import Tracking from "@/components/tracking";
+import {
+  Attendance,
+  ContactHelp,
+  DigitalBenefits,
+} from "@/components/attendance";
 import PhotoRequest from "@/components/photo-request";
 import Scheduling from "@/components/scheduling";
 import Portfolio from "@/components/portfolio";
 import VerifiedReviews from "@/components/verified-reviews";
 import { company, services, DEMO_MODE } from "@/data/company";
 import { whatsapp } from "@/lib/domain.mjs";
-const icons = [Smartphone, BatteryCharging, Cable, Cpu, Droplets, Smartphone];
+const icons = [Smartphone, BatteryCharging, Cable, Camera, Volume2, Cpu];
 export default function Home() {
   return (
     <>
@@ -61,7 +64,7 @@ export default function Home() {
                   Solicitar orçamento <ArrowUpRight size={18} />
                 </a>
                 <a className="button ghost" href="#diagnostico">
-                  <ScanLine size={18} /> Explorar diagnóstico 3D
+                  <ScanLine size={18} /> Selecionar meu problema
                 </a>
               </div>
               <div className="hero-promise">
@@ -150,16 +153,15 @@ export default function Home() {
               <div>
                 <span className="eyebrow">01 / ESPECIALISTAS EM CUIDAR</span>
                 <h2>
-                  Precisão em
+                  Soluções para
                   <br />
-                  <span>cada reparo.</span>
+                  <span>seu dispositivo.</span>
                 </h2>
               </div>
               <div>
                 <p>
-                  Soluções técnicas para os problemas
-                  <br />
-                  que interrompem sua rotina.
+                  Conte o que precisa e consulte a equipe sobre a avaliação e os
+                  serviços disponíveis para seu aparelho.
                 </p>
                 <a className="text-button" href="#orcamento">
                   Encontre o seu próximo passo <ArrowUpRight size={17} />
@@ -173,17 +175,22 @@ export default function Home() {
                   <article className="service-card reveal" key={s.id}>
                     <a
                       href={whatsapp(
-                        `Olá, equipe Ril Cell! Gostaria de solicitar uma avaliação para ${s.title.toLowerCase()}.`,
+                        `Olá, equipe Ril Cell! Gostaria de informações sobre ${s.title.toLowerCase()}. Vocês podem avaliar meu aparelho?`,
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`Solicitar avaliação: ${s.title}`}
+                      aria-label={`Solicitar informações: ${s.title}`}
                     >
                       <div className="service-image">
-                        <div
-                          className={`service-photo photo-${i}`}
-                          role="img"
-                          aria-label={`Imagem ilustrativa gerada por IA: ${s.title.toLowerCase()}`}
+                        <img
+                          className="premium-service-photo"
+                          src={s.image}
+                          srcSet={`${s.image.replace(".webp", "-240.webp")} 240w, ${s.image} 412w`}
+                          sizes="(max-width: 600px) calc(100vw - 48px), 380px"
+                          width={412}
+                          height={412}
+                          loading="lazy"
+                          alt={`Imagem ilustrativa gerada por IA: ${s.title.toLowerCase()}`}
                         />
                         <span className="service-number">0{i + 1}</span>
                         <span className="image-disclaimer">Ilustração</span>
@@ -193,7 +200,7 @@ export default function Home() {
                         <h3>{s.title}</h3>
                         <p>{s.description}</p>
                         <span className="service-link">
-                          Saiba como podemos ajudar <ArrowUpRight size={16} />
+                          Solicitar informações <ArrowUpRight size={16} />
                         </span>
                       </div>
                     </a>
@@ -202,13 +209,16 @@ export default function Home() {
               })}
             </div>
             <p className="fine source-note">
-              ¹ Quantidade declarada no site atual, conforme briefing.
-              Informações comerciais sujeitas à confirmação.
+              ¹ Quantidade de aparelhos informada no briefing, sujeita à
+              confirmação. Categorias para consulta. A disponibilidade e as
+              condições de cada serviço dependem de confirmação da equipe para
+              seu aparelho.
             </p>
           </div>
         </section>
         <Diagnostics />
-        <Tracking />
+        <Attendance />
+        <ContactHelp />
         <PhotoRequest />
         <Scheduling />
         <section className="section editorial">
@@ -254,88 +264,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="section care">
-          <div className="container split">
-            <div className="section-copy reveal">
-              <span className="eyebrow">CUIDADO EM CADA ETAPA</span>
-              <h2>
-                Seu aparelho
-                <br />
-                <span>em boas mãos.</span>
-              </h2>
-              <p>
-                Mais do que voltar a funcionar. Voltar a fazer parte da sua
-                rotina.
-              </p>
-              <ul className="care-list">
-                {[
-                  "Atendimento especializado em smartphones",
-                  "Orçamento na hora, conforme divulgado",
-                  "Três meses de garantia anunciada",
-                  "Possibilidade de conserto no mesmo dia",
-                  "Atendimento presencial em Fortaleza",
-                ].map((t) => (
-                  <li key={t}>
-                    <Check size={17} />
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="care-art reveal">
-              <img
-                src="/images/workbench.svg"
-                alt="Representação ilustrativa de bancada e smartphone, sem retratar instalações da empresa"
-                loading="lazy"
-              />
-              <span className="image-disclaimer">Bancada ilustrativa</span>
-              <div className="care-overlay">
-                <span className="mono">NOSSA CONEXÃO É COM VOCÊ.</span>
-                <h3>
-                  Cuidado técnico.
-                  <br />
-                  Atendimento próximo.
-                </h3>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section className="section journey">
-          <div className="container">
-            <span className="eyebrow">UMA JORNADA MAIS SIMPLES</span>
-            <h2>
-              Do problema <span>à solução.</span>
-            </h2>
-            <div className="journey-grid">
-              {[
-                [
-                  "Solicitação",
-                  "Conte o que aconteceu e converse com nossa equipe.",
-                ],
-                [
-                  "Avaliação técnica",
-                  "O próximo passo começa com uma análise do aparelho.",
-                ],
-                [
-                  "Reparo",
-                  "Atendimento especializado após aprovação do orçamento.",
-                ],
-                ["Entrega", "Seu aparelho de volta à sua rotina."],
-              ].map(([title, desc], i) => (
-                <div className="journey-step reveal" key={title}>
-                  <span>0{i + 1}</span>
-                  <h3>{title}</h3>
-                  <p>{desc}</p>
-                  <ArrowRight size={18} />
-                </div>
-              ))}
-            </div>
-            <p className="fine">
-              Jornada conceitual. Procedimentos e prazos dependem de avaliação e
-              confirmação da equipe.
-            </p>
-          </div>
-        </section>
+        <DigitalBenefits />
         <Portfolio />
         <section className="institutional">
           <div className="container">
@@ -362,34 +291,6 @@ export default function Home() {
           </div>
         </section>
         <VerifiedReviews reviews={[]} />
-        <section className="final-cta">
-          <div className="cta-orbit" />
-          <div className="container">
-            <span className="eyebrow">RECONECTE-SE AO QUE IMPORTA</span>
-            <h2>
-              Seu celular parou.
-              <br />
-              <span>Sua rotina não precisa parar.</span>
-            </h2>
-            <p>
-              Fale com a Ril Cell, explique o problema e solicite uma avaliação
-              para seu aparelho.
-            </p>
-            <div className="hero-actions">
-              <a
-                className="button"
-                href={whatsapp()}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Falar com a Ril Cell <ArrowUpRight size={18} />
-              </a>
-              <a className="button secondary" href="#diagnostico">
-                Solicitar diagnóstico <ArrowRight size={17} />
-              </a>
-            </div>
-          </div>
-        </section>
       </main>
       <footer id="contato">
         <div className="container footer-grid">
@@ -410,9 +311,9 @@ export default function Home() {
           <div>
             <h3>Explore</h3>
             <a href="#servicos">Serviços</a>
-            <a href="#diagnostico">Diagnóstico 3D</a>
-            <a href="#laboratorio">Laboratório virtual</a>
-            <a href="#reparo">Acompanhar reparo</a>
+            <a href="#diagnostico">Seleção do problema</a>
+            <a href="#laboratorio">Componentes internos</a>
+            <a href="#atendimento">Como funciona</a>
             <a href="#agendamento">Agendamento</a>
           </div>
           <div>
@@ -438,7 +339,7 @@ export default function Home() {
             <span className="demo-badge">PRÉVIA COMERCIAL</span>
             <p>
               {DEMO_MODE
-                ? "Recursos de acompanhamento, agenda, portfólio e 3D são demonstrativos."
+                ? "Agenda sem confirmação automática. Portfólio e imagens são ilustrativos."
                 : "Consulte a equipe sobre os serviços."}
             </p>
             <p>

@@ -24,6 +24,10 @@ test("production page, internal links, photos and WhatsApp links", async ({
       ...document.querySelectorAll<HTMLAnchorElement>('a[href*="wa.me"]'),
     ].map((a) => a.href),
   }));
+  const serviceImages = await page
+    .locator(".service-image img")
+    .evaluateAll((images) => images.map((img) => img.getAttribute("src")));
+  expect(new Set(serviceImages).size).toBe(6);
   expect(issues.anchors).toEqual([]);
   expect(issues.broken).toEqual([]);
   expect(issues.wa.length).toBeGreaterThan(10);
@@ -33,19 +37,24 @@ test("production page, internal links, photos and WhatsApp links", async ({
     expect(url.searchParams.get("text")?.length).toBeGreaterThan(10);
   }
 });
-test("tracking returns demo and rejects unknown code", async ({ page }) => {
-  const section = page.locator("#reparo");
-  await section.getByRole("button", { name: "Testar demonstração" }).click();
+test("removed sections are replaced by attendance and contact actions", async ({
+  page,
+}) => {
+  await expect(page.locator("#reparo")).toHaveCount(0);
+  await expect(page.locator("canvas")).toHaveCount(0);
   await expect(
-    section.getByRole("heading", { name: "Samsung Galaxy A54" }),
-  ).toBeVisible();
-  await expect(section.getByText(/^Reparo em andamento/)).toBeVisible();
-  await section.getByLabel("Código de acompanhamento").fill("REAL-999");
-  await section.getByRole("button", { name: "Consultar reparo" }).click();
-  await expect(section.getByRole("alert")).toHaveText(
-    "Não encontramos esse código na demonstração.",
-  );
-  await expect(section.getByText("Samsung Galaxy A54")).toHaveCount(0);
+    page.getByText("SEU PRÓXIMO ATENDIMENTO", { exact: true }),
+  ).toHaveCount(0);
+  await expect(page.locator("#atendimento article")).toHaveCount(4);
+  const contact = page.locator("#ajuda");
+  await expect(
+    contact.getByRole("link", { name: "Falar com a Ril Cell" }),
+  ).toHaveAttribute("href", /wa.me\/5585997096401/);
+  await contact.getByRole("link", { name: "Enviar foto do problema" }).click();
+  await expect(page).toHaveURL(/#orcamento$/);
+  await expect(
+    page.locator("#orcamento").getByLabel("Modelo", { exact: true }),
+  ).toBeInViewport();
 });
 test("photo flow validates fields and file, reviews and preserves manual attachment", async ({
   page,
@@ -79,6 +88,34 @@ test("photo flow validates fields and file, reviews and preserves manual attachm
   await expect(
     section.getByAltText("Prévia da fotografia selecionada"),
   ).toBeVisible();
+  const capture = section.getByLabel("Tirar fotografia", { exact: true });
+  await expect(capture).toHaveAttribute("capture", "environment");
+  await capture.setInputFiles({
+    name: "camera.png",
+    mimeType: "image/png",
+    buffer: Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRz0AAAAASUVORK5CYII=",
+      "base64",
+    ),
+  });
+  await expect(section.getByText("camera.png", { exact: true })).toBeVisible();
+  await section.getByRole("button", { name: "Remover imagem" }).click();
+  await expect(
+    section.getByAltText("Prévia da fotografia selecionada"),
+  ).toHaveCount(0);
+  await expect(capture).toHaveValue("");
+  await expect(input).toHaveValue("");
+  await input.setInputFiles({
+    name: "replacement.png",
+    mimeType: "image/png",
+    buffer: Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRz0AAAAASUVORK5CYII=",
+      "base64",
+    ),
+  });
+  await section
+    .getByLabel("Observações")
+    .fill("A tela trincou após uma queda.");
   await section.getByRole("button", { name: "Continuar", exact: true }).click();
   await expect(
     section.getByText("A foto não é anexada automaticamente", { exact: false }),
@@ -87,6 +124,9 @@ test("photo flow validates fields and file, reviews and preserves manual attachm
   expect(
     new URL((await link.getAttribute("href"))!).searchParams.get("text"),
   ).toContain("iPhone 13");
+  expect(
+    new URL((await link.getAttribute("href"))!).searchParams.get("text"),
+  ).toContain("A tela trincou após uma queda.");
   await expect(
     section.getByRole("link", { name: "Baixar foto selecionada" }),
   ).toBeVisible();
@@ -112,42 +152,62 @@ test("scheduling rejects Sunday and past date then produces request awaiting con
       .getAttribute("href"),
   ).toContain("Aguardo%20confirma%C3%A7%C3%A3o");
 });
-test("diagnostics and virtual lab component controls", async ({ page }) => {
-  const diagnostic = page.locator("#diagnostico");
-  await diagnostic.getByRole("button", { name: "02 Bateria" }).click();
-  await expect(diagnostic.locator("canvas")).toBeVisible();
-  await expect(
-    diagnostic.getByRole("heading", { name: "Bateria", exact: true }),
-  ).toBeVisible();
-  await expect(
-    diagnostic.getByText("Descarga rápida", { exact: true }),
-  ).toBeVisible();
-  await diagnostic
-    .getByRole("button", { name: "Aproximar", exact: true })
-    .click();
-  await diagnostic
-    .getByRole("button", { name: /restaurar câmera e montagem/i })
-    .click();
-  const lab = page.locator("#laboratorio");
-  await lab
-    .getByRole("button", { name: "Explorar componentes", exact: true })
-    .click();
-  await expect(
-    lab.getByRole("button", { name: "Montar novamente" }),
-  ).toBeVisible();
-  await lab.getByRole("button", { name: "06 Placa principal" }).click();
-  await expect(
-    lab.getByRole("heading", { name: "Placa principal" }),
-  ).toBeVisible();
-  await lab.getByRole("button", { name: "Montar novamente" }).click();
-  await expect(
-    lab.getByRole("button", { name: "Explorar componentes", exact: true }),
-  ).toBeVisible();
+test("all visual selections update distinct images, descriptions and WhatsApp messages", async ({
+  page,
+}) => {
+  for (const id of ["diagnostico", "laboratorio"]) {
+    const section = page.locator(`#${id}`);
+    const options = section.getByRole("button");
+    expect(await options.count()).toBe(id === "diagnostico" ? 9 : 8);
+    const images = new Set<string>();
+    const descriptions = new Set<string>();
+    for (const option of await options.all()) {
+      const name = (await option.locator("span").last().textContent())!;
+      await option.click();
+      await expect(option).toHaveAttribute("aria-pressed", "true");
+      await expect(
+        section.locator(".visual-options [aria-pressed=true]"),
+      ).toHaveCount(1);
+      await expect(section.getByRole("heading", { level: 3 })).toHaveText(name);
+      const image = section.locator(".visual-stage img").last();
+      await expect(image).toBeVisible();
+      await expect(image).toHaveJSProperty("complete", true);
+      expect(
+        await image.evaluate((img: HTMLImageElement) => img.naturalWidth),
+      ).toBeGreaterThan(0);
+      images.add((await image.getAttribute("src"))!);
+      descriptions.add(
+        (await section
+          .locator(".visual-description > p")
+          .first()
+          .textContent())!,
+      );
+      if (id === "diagnostico") {
+        const link = await section
+          .getByRole("link", { name: "Solicitar avaliação" })
+          .getAttribute("href");
+        const url = new URL(link!);
+        expect(url.pathname).toBe("/5585997096401");
+        expect(url.searchParams.get("text")).toBe(
+          `Olá! Gostaria de solicitar uma avaliação do meu aparelho. O problema que selecionei foi: ${name}.`,
+        );
+      }
+    }
+    expect(images.size).toBe(await options.count());
+    expect(descriptions.size).toBe(await options.count());
+    await options.first().focus();
+    await page.keyboard.press("Enter");
+    await expect(options.first()).toHaveAttribute("aria-pressed", "true");
+    await page.keyboard.press("Tab");
+    await expect(options.nth(1)).toBeFocused();
+    await page.keyboard.press("Space");
+    await expect(options.nth(1)).toHaveAttribute("aria-pressed", "true");
+  }
 });
 test("responsive widths have no horizontal overflow and mobile menu supports escape", async ({
   page,
 }) => {
-  for (const width of [320, 360, 375, 390, 414, 768, 1024, 1440, 1920]) {
+  for (const width of [320, 375, 390, 430, 768, 1024, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });
     await page.waitForTimeout(100);
     expect(
@@ -184,29 +244,32 @@ test("reduced motion skips intro; screenshot desktop and no application errors",
   await page.screenshot({ path: "/tmp/ril-desktop.png", fullPage: true });
   expect(errors).toEqual([]);
 });
-test("WebGL unavailable keeps educational component list usable", async ({
-  page,
+test("mobile touch selectors remain contained and show every component", async ({
+  browser,
 }) => {
-  await page.addInitScript(() => {
-    const original = HTMLCanvasElement.prototype.getContext;
-    HTMLCanvasElement.prototype.getContext = function (
-      this: HTMLCanvasElement,
-      type: string,
-      ...args: unknown[]
-    ) {
-      if (type.startsWith("webgl")) return null;
-      return original.call(this, type, ...(args as []));
-    } as typeof original;
+  const context = await browser.newContext({
+    viewport: { width: 320, height: 850 },
+    isMobile: true,
+    hasTouch: true,
   });
-  await page.reload();
-  const section = page.locator("#diagnostico");
-  await section.getByRole("button", { name: "02 Bateria" }).click();
-  await expect(
-    section.getByText("WebGL indisponível.", { exact: false }),
-  ).toBeVisible();
-  await expect(
-    section.getByRole("heading", { name: "Bateria", exact: true }),
-  ).toBeVisible();
+  const page = await context.newPage();
+  await page.addInitScript(() => sessionStorage.setItem("ril-intro", "1"));
+  await page.goto("/");
+  for (const id of ["diagnostico", "laboratorio"]) {
+    const section = page.locator(`#${id}`);
+    for (const button of await section.getByRole("button").all()) {
+      await button.scrollIntoViewIfNeeded();
+      await button.tap();
+      await expect(button).toHaveAttribute("aria-pressed", "true");
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+    }
+    await expect(section.locator(".visual-description h3")).toBeVisible();
+  }
+  await context.close();
 });
 test("intro plays once and is skippable", async ({ page }) => {
   await page.waitForFunction(() => sessionStorage.getItem("ril-intro") === "1");

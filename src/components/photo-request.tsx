@@ -196,6 +196,8 @@ export default function PhotoRequest() {
                         onClick={() => {
                           setFile(null);
                           if (fileInput.current) fileInput.current.value = "";
+                          if (cameraInput.current)
+                            cameraInput.current.value = "";
                         }}
                       >
                         <X size={16} /> Remover imagem

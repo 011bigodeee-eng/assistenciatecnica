@@ -17,16 +17,14 @@ export default function Scheduling() {
   const [today] = useState(() => todayFortaleza());
   const message = `Olá, equipe Ril Cell!\nGostaria de solicitar um agendamento.\nServiço: ${service}\nAparelho: ${device}\nData desejada: ${date.split("-").reverse().join("/")}\nHorário desejado: ${time}\nAguardo confirmação da disponibilidade.`;
   return (
-    <section id="agendamento" className="section scheduling">
+    <section id="agendamento" className="section scheduling schedule-request">
       <div className="container split">
         <div className="section-copy reveal">
           <span className="eyebrow">06 / NO SEU TEMPO</span>
           <h2>
-            Um cuidado que
+            Prefere combinar
             <br />
-            cabe na
-            <br />
-            <span>sua rotina.</span>
+            <span>um horário?</span>
           </h2>
           <p>
             Escolha o melhor momento para cuidar do seu celular. Solicite um
@@ -53,10 +51,11 @@ export default function Scheduling() {
             if (!invalid) setReview(true);
           }}
         >
-          <div className="panel-top">
-            <span>SEU PRÓXIMO ATENDIMENTO</span>
-            <CalendarDays size={18} />
-          </div>
+          <h3>Solicite um horário</h3>
+          <p className="fine">
+            Escolha sua preferência. A equipe confirma a disponibilidade pelo
+            WhatsApp.
+          </p>
           <label>
             Serviço
             <select
