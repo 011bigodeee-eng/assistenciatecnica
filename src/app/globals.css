@@ -17,6 +17,19 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
 }
+/* Keep horizontal gestures inside selectors instead of moving the page. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
+}
+@supports not (overflow: clip) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+}
 body {
   margin: 0;
   background: var(--bg);
@@ -1997,6 +2010,7 @@ html.intro-pending body:before {
   .visual-options {
     display: flex;
     overflow-x: auto;
+    overscroll-behavior-x: contain;
     gap: 8px;
     padding: 4px 3px 12px;
     scroll-snap-type: x proximity;
