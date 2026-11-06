@@ -16,11 +16,7 @@ import {
 } from "lucide-react";
 import { Header, Intro, Logo, Reveal } from "@/components/chrome";
 import Diagnostics from "@/components/diagnostics";
-import {
-  Attendance,
-  ContactHelp,
-  DigitalBenefits,
-} from "@/components/attendance";
+import { Attendance, ContactHelp } from "@/components/attendance";
 import PhotoRequest from "@/components/photo-request";
 import Scheduling from "@/components/scheduling";
 import Portfolio from "@/components/portfolio";
@@ -75,38 +71,30 @@ export default function Home() {
               </div>
             </div>
             <div className="hero-art">
-              <div className="orbital orbit-one" />
-              <div className="orbital orbit-two" />
-              <img
-                src="/images/phone-campaign.webp"
-                srcSet="/images/phone-campaign-840.webp 840w, /images/phone-campaign-1200.webp 1200w, /images/phone-campaign.webp 1672w"
-                sizes="(max-width: 600px) 100vw, (max-width: 1100px) 55vw, 700px"
-                alt="Smartphone premium em perspectiva; imagem ilustrativa gerada por IA"
-                fetchPriority="high"
-                width={1672}
-                height={941}
-              />
-              <span className="art-coordinate top">
-                RC / PRECISION CARE
-                <br />
-                <b>TECNOLOGIA EM CADA DETALHE</b>
-              </span>
-              <div className="floating-label label-one">
-                <span className="tiny-cross">+</span>
-                <div>
-                  Diagnóstico técnico<small>O cuidado começa aqui.</small>
-                </div>
+              <picture>
+                <source
+                  media="(max-width: 700px)"
+                  srcSet="/images/campaign/hero-mobile-640.webp 640w, /images/campaign/hero-mobile-1024.webp 1024w"
+                  sizes="calc(100vw - 40px)"
+                  width={1024}
+                  height={1536}
+                />
+                <img
+                  src="/images/campaign/hero-desktop-1536.webp"
+                  srcSet="/images/campaign/hero-desktop-960.webp 960w, /images/campaign/hero-desktop-1536.webp 1536w"
+                  sizes="(max-width: 1100px) 55vw, 680px"
+                  alt="Smartphone premium em bancada profissional com ferramentas de precisão; composição ilustrativa gerada por IA"
+                  fetchPriority="high"
+                  loading="eager"
+                  decoding="async"
+                  width={1536}
+                  height={1024}
+                />
+              </picture>
+              <div className="hero-art-caption">
+                <span>PRECISÃO EM CADA DETALHE</span>
+                <span>COMPOSIÇÃO ILUSTRATIVA · IA</span>
               </div>
-              <div className="floating-label label-two">
-                <ShieldCheck size={21} />
-                <div>
-                  3 meses<small>de garantia anunciada</small>
-                </div>
-              </div>
-              <span className="art-coordinate bottom">
-                01 — REPARAR É RECONECTAR.
-              </span>
-              <span className="image-disclaimer">Visual ilustrativo</span>
             </div>
             <div className="hero-bottom">
               <a href="#servicos">
@@ -185,10 +173,10 @@ export default function Home() {
                         <img
                           className="premium-service-photo"
                           src={s.image}
-                          srcSet={`${s.image.replace(".webp", "-240.webp")} 240w, ${s.image} 412w`}
+                          srcSet={`${s.image.replace(".webp", "-300.webp")} 300w, ${s.image} 600w`}
                           sizes="(max-width: 600px) calc(100vw - 48px), 380px"
-                          width={412}
-                          height={412}
+                          width={600}
+                          height={600}
                           loading="lazy"
                           alt={`Imagem ilustrativa gerada por IA: ${s.title.toLowerCase()}`}
                         />
@@ -224,10 +212,15 @@ export default function Home() {
         <section className="section editorial">
           <div className="container editorial-grid">
             <div className="editorial-image reveal">
-              <div
+              <img
                 className="editorial-photo"
-                role="img"
-                aria-label="Macro de circuitos eletrônicos; imagem ilustrativa gerada por IA"
+                src="/images/campaign/editorial.webp"
+                srcSet="/images/campaign/editorial-300.webp 300w, /images/campaign/editorial.webp 600w"
+                sizes="(max-width: 700px) calc(100vw - 40px), 550px"
+                width={600}
+                height={600}
+                alt="Macro de circuitos em placa preta com chips e soldas metálicas; composição ilustrativa gerada por IA"
+                loading="lazy"
               />
               <span className="image-disclaimer">
                 Representação ilustrativa
@@ -264,7 +257,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <DigitalBenefits />
         <Portfolio />
         <section className="institutional">
           <div className="container">

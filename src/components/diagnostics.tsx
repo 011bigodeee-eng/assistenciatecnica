@@ -34,7 +34,7 @@ function VisualSelector({
           >
             {!educational && (
               <img
-                src={item.image.replace(".webp", "-240.webp")}
+                src={item.image.replace(".webp", "-300.webp")}
                 width={56}
                 height={56}
                 alt=""
@@ -63,10 +63,10 @@ function VisualSelector({
             <motion.img
               key={selected.id}
               src={selected.image}
-              srcSet={`${selected.image.replace(".webp", "-240.webp")} 240w, ${selected.image} 412w`}
-              sizes="(max-width: 600px) calc(100vw - 48px), 412px"
-              width={412}
-              height={412}
+              srcSet={`${selected.image.replace(".webp", "-300.webp")} 300w, ${selected.image} 600w`}
+              sizes="(max-width: 700px) calc(100vw - 40px), 480px"
+              width={600}
+              height={600}
               alt={selected.alt}
               loading="lazy"
               initial={{ opacity: 0, scale: reduce ? 1 : 1.025 }}

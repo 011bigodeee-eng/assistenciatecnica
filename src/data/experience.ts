@@ -15,7 +15,7 @@ const visual = (
   id,
   name,
   description,
-  image: `/images/premium/${image}.webp`,
+  image: `/images/campaign/${image}.webp`,
   alt: `${alt}; ilustração gerada por IA`,
 });
 export const problems = [
@@ -155,25 +155,5 @@ export const attendanceSteps = [
   [
     "Autorize o serviço",
     "Após receber as condições aplicáveis, decida se deseja prosseguir.",
-  ],
-];
-export const digitalBenefits = [
-  ["Contato simplificado", "Comece uma conversa com poucos toques."],
-  ["Seleção visual", "Encontre a categoria que melhor descreve o problema."],
-  [
-    "Espaço para os detalhes",
-    "Conte o modelo e o que aconteceu com seu aparelho.",
-  ],
-  [
-    "Fotografia orientada",
-    "Prepare a imagem e saiba como anexá-la na conversa.",
-  ],
-  [
-    "Pensado para o celular",
-    "Seletores, leitura e controles adaptados ao toque.",
-  ],
-  [
-    "Canais oficiais à mão",
-    "WhatsApp e Instagram acessíveis em toda a experiência.",
   ],
 ];

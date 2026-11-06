@@ -1,4 +1,4 @@
-# Validação da atualização premium RIL CELL
+# Validação da correção visual RIL CELL
 
 ## Ambiente
 
@@ -9,12 +9,14 @@ Node.js 24.22.1, Next.js 16.4.5, Chromium em `/usr/bin/chromium`. Instalação v
 - `npm test`: 5 testes passaram. Validação de mensagens, datas em Fortaleza, domingos, datas impossíveis, horários e arquivos de imagem. O teste exclusivo do rastreamento foi removido junto com a funcionalidade.
 - `npm run build`: build de produção e geração estática aprovados.
 - `npm run typecheck`: aprovado.
-- `npm start` seguido de `npm run test:e2e`: 12 testes passaram.
+- `npm start` seguido de `npm run test:e2e`: 13 testes passaram.
 
 Os testes de navegador verificam:
 
 - Links internos com destino existente, imagens carregadas e número oficial em todas as URLs WhatsApp verificadas.
-- Ausência de rastreamento, canvas 3D e painel antigo; presença das quatro etapas e acesso à fotografia pelo novo CTA.
+- Ausência de rastreamento, canvas 3D, painel antigo e seção de diferenciais removida; presença das quatro etapas e acesso à fotografia pelo CTA.
+- Hero com composição específica para mobile e desktop, fonte correta em densidade 2×, prioridade alta, imagem íntegra sem sobrepor o texto.
+- Todos os elementos `<img>` iniciais apontam para a campanha nova. Serviços e diagnóstico usam cenas diferentes.
 - As nove opções de problema e os oito componentes: imagem individual carregada, título, descrição e opção ativa; texto exato personalizado de WhatsApp para cada problema.
 - Navegação dos seletores por Enter, Tab e Espaço e interação por toque em viewport de 320 px.
 - Ausência de overflow horizontal em 320, 375, 390, 430, 768, 1024, 1440 e 1920 px; menu mobile e Escape.
@@ -27,9 +29,13 @@ Os testes de navegador verificam:
 
 ## Revisão visual e assets
 
-Capturas de diagnóstico visual, componentes, atendimento e contato em 1440, 390 e 320 px foram geradas em `/tmp/ril-*.png`. Seções principais inspecionadas visualmente. Os seletores horizontais ficam contidos na seção; imagens e textos têm espaço reservado. Após o último ajuste de CSS, uma verificação funcional adicional percorreu as 17 opções nas oito larguras solicitadas: variação de altura de 0 px em cada seletor e nenhum overflow horizontal. O botão flutuante é ocultado em celulares para não cobrir formulários; o WhatsApp continua disponível no cabeçalho e nas ações.
+As duas composições de Hero e as sete grades de origem foram inspecionadas. A campanha usa preto, grafite, metal e iluminação azul discreta; nenhuma imagem antiga foi apenas escurecida ou filtrada. Uma checagem complementar dos WebP principais reduzidos para amostragem encontrou 0 pixels com predominância verde em 802.240 pixels. Essa checagem complementa a inspeção visual, sem comprovar a exatidão técnica de peças geradas por IA.
 
-Foram adicionadas 18 cenas geradas por IA, exportadas em 37 arquivos WebP responsivos (aproximadamente 1,3 MB no total em disco). O navegador seleciona variantes; imagens abaixo da dobra usam carregamento tardio. Ver `ASSETS.md`. Three.js, Fiber, Drei e tipos exclusivos foram removidos; Motion foi adicionado. Não há dependência de WebGL.
+Capturas da Hero em desktop e mobile com emulação de densidade 2×: `/tmp/ril-campaign-hero-1440.png` e `/tmp/ril-campaign-hero-390.png`. Capturas das seções de serviços, diagnóstico, componentes e contato: `/tmp/ril-campaign-*.png`. Imagens mantêm sua proporção com espaço reservado; a Hero não usa máscara, corte automático ou animação flutuante contínua. A seção removida não tem substituta e a sequência editorial segue para o portfólio.
+
+Foram geradas 29 cenas novas em 58 arquivos WebP responsivos (aproximadamente 3,4 MB somando todas as variantes). A Hero tem versões de até 1536 px no desktop e 1024 px no mobile; as demais imagens têm variantes de 300/600 px. A exportação não amplia pixels de origem. Todos os antigos assets de `public/images`, incluindo os verdes e os SVGs fotográficos substituídos, foram removidos. Ver `ASSETS.md` para proveniência e reprodução.
+
+A agenda, os contatos, os dados comerciais, o formulário de fotografia, a introdução e o comparador permanecem. A presença de fotos e a paleta não criam novas integrações.
 
 ## Limites e configuração real
 

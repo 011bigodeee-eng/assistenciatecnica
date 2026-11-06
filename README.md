@@ -31,11 +31,11 @@ Os testes de navegador usam `/usr/bin/chromium`. Para outro executável, defina 
 ## Funcionalidades
 
 - Abertura curta, pulável, uma vez por sessão; redução de movimento respeitada.
-- Hero com imagem publicitária ilustrativa gerada por IA, serviços e contato contextual via WhatsApp.
+- Hero com fotografias publicitárias ilustrativas geradas por IA e composições independentes para desktop e mobile, carregamento prioritário e enquadramento integral do aparelho.
 - Seleção visual de nove problemas: imagens individuais geradas por IA, causas possíveis, opção ativa e mensagem personalizada no WhatsApp. Sem diagnóstico automático.
 - Exploração educativa de oito componentes internos, com imagens próprias, crossfade, zoom discreto e seletores horizontais no celular. Sem WebGL ou modelos 3D.
 - Fluxo sugerido de atendimento em quatro etapas, com progresso conforme o scroll. Conteúdo editável em `src/data/experience.ts`. O rastreamento anterior e seus dados foram removidos.
-- Seção de contato com bancada cinematográfica, acesso à solicitação por foto e diferenciais reais da experiência digital.
+- Seção de contato com bancada cinematográfica e acesso à solicitação por foto. A seção de diferenciais foi removida.
 - Solicitação em etapas com imagem local (JPEG, PNG, WebP, máximo de 8 MB), prévia, remoção, substituição, captura compatível e revisão. Nada é enviado a servidor. Web Share API com arquivos quando suportada e fluxo universal por texto com anexo manual.
 - Solicitação de horário: datas em Fortaleza, bloqueio de domingos, datas/horas passadas e horários fora da lista. Revisão e mensagem no WhatsApp, sem reserva automática.
 - Comparação ilustrativa antes/depois por range acessível a teclado, mouse e toque.
@@ -48,7 +48,8 @@ Os testes de navegador usam `/usr/bin/chromium`. Para outro executável, defina 
 - `src/data/company.ts`: informações comerciais, serviços, categorias de consulta e `DEMO_MODE`.
 - `src/data/experience.ts`: problemas, imagens, componentes, diferenciais e etapas sugeridas de atendimento.
 - `src/lib/domain.mjs`: validações de data, horário, fotografia e mensagens.
-- `public/images`: assets locais.
+- `public/images/campaign`: 29 cenas novas em 58 variantes WebP, com direção de arte preto/grafite/metal e azul discreto.
+- `scripts/export-campaign.cjs`: exportação opcional a partir dos originais de IA; desnecessária para build ou execução.
 - `tests`: regras de domínio e fluxos de navegador.
 
 ## Vercel

@@ -37,6 +37,70 @@ test("production page, internal links, photos and WhatsApp links", async ({
     expect(url.searchParams.get("text")?.length).toBeGreaterThan(10);
   }
 });
+test("campaign photography replaces old assets and uses dedicated mobile hero", async ({
+  browser,
+  page,
+}) => {
+  await expect(page.locator("#diferenciais")).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: /Tecnologia na experiência/ }),
+  ).toHaveCount(0);
+  const imagePaths = await page
+    .locator("img")
+    .evaluateAll((images) => images.map((image) => image.getAttribute("src")));
+  expect(imagePaths.every((src) => src?.startsWith("/images/campaign/"))).toBe(
+    true,
+  );
+  const services = await page
+    .locator(".service-image img")
+    .evaluateAll((images) => images.map((image) => image.getAttribute("src")));
+  const problems = await page
+    .locator("#diagnostico .visual-options img")
+    .evaluateAll((images) =>
+      images.map((image) =>
+        image.getAttribute("src")?.replace("-300.webp", ".webp"),
+      ),
+    );
+  expect(
+    services.filter((src) => src !== null && problems.includes(src)),
+  ).toEqual([]);
+  for (const width of [390, 1440]) {
+    const context = await browser.newContext({
+      viewport: { width, height: 1000 },
+      deviceScaleFactor: 2,
+      reducedMotion: "reduce",
+    });
+    const screen = await context.newPage();
+    await screen.goto("http://127.0.0.1:3000");
+    const hero = screen.locator(".hero-art img");
+    await expect(hero).toHaveJSProperty("complete", true);
+    const state = await hero.evaluate((image: HTMLImageElement) => {
+      const copy = document
+        .querySelector(".hero-copy")!
+        .getBoundingClientRect();
+      const art = document.querySelector(".hero-art")!.getBoundingClientRect();
+      return {
+        src: image.currentSrc,
+        width: image.naturalWidth,
+        fit: getComputedStyle(image).objectFit,
+        separated: copy.right <= art.left || copy.bottom <= art.top,
+      };
+    });
+    expect(state.src).toContain(
+      width < 700 ? "hero-mobile-1024.webp" : "hero-desktop-1536.webp",
+    );
+    expect(state.width).toBeGreaterThan(0);
+    expect(state.fit).toBe("contain");
+    expect(state.separated).toBe(true);
+    await expect(hero).toHaveAttribute("fetchpriority", "high");
+    await screen.screenshot({
+      path: `/tmp/ril-campaign-hero-${width}.png`,
+      fullPage: false,
+      scale: "css",
+    });
+    await context.close();
+  }
+});
 test("removed sections are replaced by attendance and contact actions", async ({
   page,
 }) => {

@@ -21,7 +21,7 @@ export default function Portfolio() {
           </p>
           <span className="demo-badge">PORTFÓLIO ILUSTRATIVO</span>
           <p className="fine">
-            Representações gráficas demonstrativas. Não são casos reais ou
+            Composições fotográficas geradas por IA. Não são casos reais ou
             promessa de resultado. Fotografias autorizadas de reparos poderão
             substituir estas imagens.
           </p>
@@ -45,7 +45,12 @@ export default function Portfolio() {
         <div>
           <div className="comparison">
             <img
-              src="/images/after.svg"
+              src="/images/campaign/comparison-after.webp"
+              srcSet="/images/campaign/comparison-after-300.webp 300w, /images/campaign/comparison-after.webp 600w"
+              sizes="(max-width: 700px) calc(100vw - 40px), 550px"
+              width={600}
+              height={600}
+              loading="lazy"
               alt="Representação ilustrativa de aparelho após reparo"
             />
             <div
@@ -53,7 +58,12 @@ export default function Portfolio() {
               style={{ clipPath: `inset(0 ${100 - value}% 0 0)` }}
             >
               <img
-                src="/images/before.svg"
+                src="/images/campaign/comparison-before.webp"
+                srcSet="/images/campaign/comparison-before-300.webp 300w, /images/campaign/comparison-before.webp 600w"
+                sizes="(max-width: 700px) calc(100vw - 40px), 550px"
+                width={600}
+                height={600}
+                loading="lazy"
                 alt="Representação ilustrativa de aparelho com avarias"
               />
             </div>

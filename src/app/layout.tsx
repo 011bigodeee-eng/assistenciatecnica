@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: "Assistência técnica especializada em Fortaleza.",
     locale: "pt_BR",
     type: "website",
-    images: ["/images/phone-campaign.webp"],
+    images: ["/images/campaign/hero-desktop-1536.webp"],
   },
   twitter: { card: "summary_large_image" },
 };

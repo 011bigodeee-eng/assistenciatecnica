@@ -13,12 +13,8 @@ import {
   CheckCheck,
   Camera,
   ArrowUpRight,
-  Smartphone,
-  MousePointer2,
-  PenLine,
-  Link2,
 } from "lucide-react";
-import { attendanceSteps, digitalBenefits } from "@/data/experience";
+import { attendanceSteps } from "@/data/experience";
 import { whatsapp } from "@/lib/domain.mjs";
 export function Attendance() {
   const root = useRef<HTMLElement>(null);
@@ -128,49 +124,16 @@ export function ContactHelp() {
         </div>
         <motion.div className="help-image" style={{ y: reduce ? 0 : y }}>
           <img
-            src="/images/premium/workbench-1200.webp"
-            srcSet="/images/premium/workbench-640.webp 640w, /images/premium/workbench-1200.webp 1200w, /images/premium/workbench-1536.webp 1536w"
+            src="/images/campaign/contact.webp"
+            srcSet="/images/campaign/contact-300.webp 300w, /images/campaign/contact.webp 600w"
             sizes="(max-width: 800px) 100vw, 55vw"
-            width={1536}
-            height={1024}
+            width={600}
+            height={600}
             alt="Smartphone em bancada com ferramentas de precisão, composição ilustrativa gerada por IA"
             loading="lazy"
           />
           <span className="image-disclaimer">Composição ilustrativa · IA</span>
         </motion.div>
-      </div>
-    </section>
-  );
-}
-export function DigitalBenefits() {
-  const icons = [MousePointer2, ScanLine, PenLine, Camera, Smartphone, Link2];
-  return (
-    <section id="diferenciais" className="section digital-benefits">
-      <div className="container">
-        <div className="section-heading reveal">
-          <div>
-            <span className="eyebrow">UMA EXPERIÊNCIA QUE FACILITA</span>
-            <h2>
-              Tecnologia na experiência.
-              <br />
-              <span>Clareza no atendimento.</span>
-            </h2>
-          </div>
-        </div>
-        <div className="benefit-grid">
-          {digitalBenefits.map(([title, description], i) => {
-            const Icon = icons[i];
-            return (
-              <div className="benefit-item reveal" key={title}>
-                <Icon size={23} aria-hidden="true" />
-                <div>
-                  <h3>{title}</h3>
-                  <p>{description}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
       </div>
     </section>
   );

@@ -7,41 +7,41 @@ export const services = [
     title: "Tela e toque",
     description:
       "Vidro trincado, manchas ou toque sem resposta? Consulte as possibilidades de avaliação.",
-    image: "/images/premium/problem-screen.webp",
+    image: "/images/campaign/service-screen.webp",
   },
   {
     id: "bateria",
     title: "Bateria e autonomia",
     description:
       "Conte sobre a duração da carga e os desligamentos para orientar o primeiro contato.",
-    image: "/images/premium/problem-battery.webp",
+    image: "/images/campaign/service-battery.webp",
   },
   {
     id: "conector",
     title: "Carregamento",
     description:
       "Explique as falhas de carga e consulte o atendimento indicado para seu aparelho.",
-    image: "/images/premium/problem-charging.webp",
+    image: "/images/campaign/service-charging.webp",
   },
   {
     id: "camera",
     title: "Câmera e imagem",
     description:
       "Foco, captura e qualidade de imagem: descreva o sintoma e solicite informações.",
-    image: "/images/premium/problem-camera.webp",
+    image: "/images/campaign/service-camera.webp",
   },
   {
     id: "audio",
     title: "Áudio e chamadas",
     description:
       "Som baixo, ruídos ou falhas na captação? Informe em quais situações acontecem.",
-    image: "/images/premium/problem-speaker.webp",
+    image: "/images/campaign/service-audio.webp",
   },
   {
     id: "sistema",
     title: "Sistema e desempenho",
     description:
       "Relate lentidão, travamentos ou reinicializações e converse sobre uma avaliação.",
-    image: "/images/premium/problem-system.webp",
+    image: "/images/campaign/service-system.webp",
   },
 ];
