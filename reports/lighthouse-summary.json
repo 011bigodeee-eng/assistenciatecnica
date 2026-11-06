@@ -1,0 +1,34 @@
+{
+  "environment": "local Chromium; production build; default mobile simulated throttling",
+  "lighthouseVersion": "13.6.0",
+  "scores": {
+    "performance": 94,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 100
+  },
+  "metrics": {
+    "largest-contentful-paint": {
+      "value": 2987.1481499999995,
+      "display": "3.0 s"
+    },
+    "cumulative-layout-shift": {
+      "value": 0,
+      "display": "0"
+    },
+    "total-blocking-time": {
+      "value": 76.52909999999997,
+      "display": "80 ms"
+    },
+    "first-contentful-paint": {
+      "value": 914.9418000000001,
+      "display": "0.9 s"
+    }
+  },
+  "limitations": [
+    "Not field data",
+    "INP not measured",
+    "LCP <2.5s not achieved",
+    "No Vercel deployment tested"
+  ]
+}
